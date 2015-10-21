@@ -38,9 +38,12 @@ def save_to_db():
 
 
 def show_all():
-	date = get_data(url)['date'].strftime(FORMAT_DATETIME)
-	print redis_server.hgetall(date)
+	keys = redis_server.keys()
+
+	for i, key in enumerate(keys):
+		print '{}: {}'.format(i, redis_server.hgetall(key))
 
 
 if __name__ == '__main__':
 	save_to_db()
+	# show_all()
