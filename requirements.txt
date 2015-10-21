@@ -2,7 +2,6 @@ appnope==0.1.0
 beautifulsoup4==4.4.1
 decorator==4.0.4
 Flask==0.10.1
-gnureadline==6.3.3
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23

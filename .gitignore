@@ -1,2 +1,4 @@
 .idea/
 *.pyc
+wsgi.py
+hotshot.ini
