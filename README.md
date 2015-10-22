@@ -8,3 +8,5 @@ Backend framework: Flask
 Frontend framework: http://getuikit.com/
 
 Baza: redis.
+
+Projekt pod adresem: http://goracystrzal.tk/
