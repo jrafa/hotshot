@@ -1,6 +1,6 @@
 # hotshot
 
-Hotshot / Gorący strzał pobiera dane z oferty o nazwie "Gorący Strzał" ze strony www.x-kom.pl.
+Hotshot / Gorący strzał celem projektu jest pobieranie i prezentacja danych z oferty o nazwie "Gorący Strzał" (strona www.x-kom.pl).
 
 Dane zapisywane są w bazie redis.
 
