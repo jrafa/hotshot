@@ -33,8 +33,9 @@ def get_data(url):
 
 
 def save_to_db():
-	date = get_data(url)['date'].strftime(FORMAT_DATETIME)
-	redis_server.hmset(date, get_data(url))
+	item = get_data(url)
+	date = item['date'].strftime(FORMAT_DATETIME)
+	redis_server.hmset(date, item)
 
 
 def show_all():
