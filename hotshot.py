@@ -30,14 +30,23 @@ def check_date(date_to_check, date_from, date_to):
     return date_to >= convert_to_date(date_to_check, FORMAT_DATETIME) >= date_from
 
 
-@app.route('/', methods=['GET'])
-def index():
+def get_hotshots(date_filter=False, date_from=None, date_to=None):
     keys = redis_server.keys()
-    redis_server.hdel('hothsot', keys)
+
+    if date_filter:
+        keys = [ key for key in keys if check_date(key, date_from, date_to) ]
 
     hotshots = []
     for key in keys:
         hotshots.append(redis_server.hgetall(key))
+    hotshots.sort(reverse=True)
+
+    return hotshots
+
+
+@app.route('/', methods=['GET'])
+def index():
+    hotshots = get_hotshots()
     return render_template('index.html', hotshots=hotshots)
 
 
@@ -50,16 +59,10 @@ def hotshots():
         date_to = request.form.get('date_to')
 
         if date_from and date_to:
-            keys = redis_server.keys()
-
-            keys = [ key for key in keys if check_date(key, date_from, date_to) ]
-
-            hotshots = []
-
-            for key in keys:
-                hotshots.append(redis_server.hgetall(key))
+            hotshots = get_hotshots(True, date_from, date_to)
 
             return render_template('index.html', hotshots=hotshots)
+
     return redirect(url_for('index'))
 
 
