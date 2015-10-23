@@ -29,7 +29,7 @@ def get_data(url):
 	price = get_element(soup, 'div', 'killer-price')
 	price_first = get_element(soup, 'div', 'discount-price')
 
-	return { 'title': title.decode('utf-8'), 'price': get_number(price), 'price_first': get_number(price_first), 'date': datetime.now()}
+	return { 'title': title.encode('utf-8'), 'price': get_number(price), 'price_first': get_number(price_first), 'date': datetime.now()}
 
 
 def save_to_db():

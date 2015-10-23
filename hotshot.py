@@ -37,8 +37,12 @@ def get_hotshots(date_filter=False, date_from=None, date_to=None):
         keys = [ key for key in keys if check_date(key, date_from, date_to) ]
 
     hotshots = []
+
     for key in keys:
-        hotshots.append(redis_server.hgetall(key))
+        hotshot = redis_server.hgetall(key)
+        hotshot['title'] = unicode(hotshot.get('title'), 'utf-8')
+        hotshots.append(hotshot)
+
     hotshots.sort(reverse=True)
 
     return hotshots
