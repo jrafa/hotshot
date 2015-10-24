@@ -25,9 +25,9 @@ def get_data(url):
 	html = urllib2.urlopen(url).read()
 	soup = BeautifulSoup(html, 'html.parser')
 
-	title = get_element(soup, 'div', 'killer-product-title')
-	price = get_element(soup, 'div', 'killer-price')
-	price_first = get_element(soup, 'div', 'discount-price')
+	title = get_element(soup, 'p', 'product-name')
+	price = get_element(soup, 'div', 'new-price')
+	price_first = get_element(soup, 'div', 'old-price')
 
 	return { 'title': title.encode('utf-8'), 'price': get_number(price), 'price_first': get_number(price_first), 'date': datetime.now()}
 
