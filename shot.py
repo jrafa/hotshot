@@ -14,7 +14,7 @@ redis_server = redis.Redis(host='localhost', port=6379)
 
 
 def get_number(number):
-	return float(number.strip().split()[0].replace(',', '.'))
+	return float(''.join((c,'.')[c==','] for c in number if c in '0123456789,'))
 
 
 def get_element(soup, tag, class_name):
