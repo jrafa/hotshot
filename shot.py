@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 import redis
 import urllib2
 from bs4 import BeautifulSoup
@@ -14,7 +15,8 @@ redis_server = redis.Redis(host='localhost', port=6379)
 
 
 def get_number(number):
-	return float(number.strip().split()[0].replace(',', '.'))
+	number = re.sub(r'\s+', '', number, flags=re.UNICODE)
+	return float(number.replace(',', '.')[:-2])
 
 
 def get_element(soup, tag, class_name):
