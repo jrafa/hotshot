@@ -2,3 +2,4 @@
 *.pyc
 wsgi.py
 hotshot.ini
+.DS_Store
