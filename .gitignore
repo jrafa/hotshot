@@ -3,3 +3,5 @@
 wsgi.py
 hotshot.ini
 .DS_Store
+.coverage
+.coverage.*

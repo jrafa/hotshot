@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+"""
+    Simple flask application displays data from database. Module with views.
+"""
 
 from flask import Flask, render_template, request, redirect, url_for
-from shot import redis_server
+from shot import REDIS_SERVER
 from datetime import date
 import time
 
@@ -17,12 +20,25 @@ FORMAT_CALENDAR = '%d.%m.%Y'
 FORMAT_DATETIME = '%Y-%m-%d %H:%M:%S.%f'
 
 
-def convert_to_date(date_to_convert, format):
-    tm = time.strptime(date_to_convert, format)
-    return date(*tm[:3])
+def convert_to_date(date_to_convert, format_date):
+    """
+    Function convert string to date.
+    :param date_to_convert: string
+    :param format_date: string
+    :return: date
+    """
+    time_to_convert = time.strptime(date_to_convert, format_date)
+    return date(*time_to_convert[:3])
 
 
 def check_date(date_to_check, date_from, date_to):
+    """
+    Check if the date is between range of dates.
+    :param date_to_check: string
+    :param date_from: string
+    :param date_to: string
+    :return: True or False
+    """
     date_from = convert_to_date(date_from, FORMAT_CALENDAR)
     date_to = convert_to_date(date_to, FORMAT_CALENDAR)
     if date_from > date_to:
@@ -31,41 +47,55 @@ def check_date(date_to_check, date_from, date_to):
 
 
 def get_hotshots(date_filter=False, date_from=None, date_to=None):
-    keys = redis_server.keys()
+    """
+    Function return sorted data from redis. Function can also return sorted data by date.
+    :param date_filter: True or False (default)
+    :param date_from: string
+    :param date_to: string
+    :return: list
+    """
+    keys = REDIS_SERVER.keys()
 
     if date_filter:
-        keys = [ key for key in keys if check_date(key, date_from, date_to) ]
+        keys = [key for key in keys if check_date(key, date_from, date_to)]
 
-    hotshots = []
+    items = []
 
     for key in keys:
-        hotshot = redis_server.hgetall(key)
+        hotshot = REDIS_SERVER.hgetall(key)
         hotshot['title'] = unicode(hotshot.get('title'), 'utf-8')
-        hotshots.append(hotshot)
+        items.append(hotshot)
 
-    hotshots.sort(reverse=True)
+    items.sort(reverse=True)
 
-    return hotshots
+    return items
 
 
 @app.route('/', methods=['GET'])
 def index():
-    hotshots = get_hotshots()
-    return render_template('index.html', hotshots=hotshots)
+    """
+    View displays list of hotshots.
+    :return:
+    """
+    items = get_hotshots()
+    return render_template('index.html', hotshots=items)
 
 
 @app.route('/hotshots', methods=['POST'])
 def hotshots():
-
+    """
+    View displays results filtered by date.
+    :return:
+    """
     if request.method == 'POST':
 
         date_from = request.form.get('date_from')
         date_to = request.form.get('date_to')
 
         if date_from and date_to:
-            hotshots = get_hotshots(True, date_from, date_to)
+            items = get_hotshots(True, date_from, date_to)
 
-            return render_template('index.html', hotshots=hotshots)
+            return render_template('index.html', hotshots=items)
 
     return redirect(url_for('index'))
 
