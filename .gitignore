@@ -1,6 +1,7 @@
 .idea/
 *.pyc
 wsgi.py
+settings.py
 hotshot.ini
 .DS_Store
 .coverage
