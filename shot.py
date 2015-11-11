@@ -7,6 +7,7 @@
 import re
 import redis
 import urllib2
+import settings
 from bs4 import BeautifulSoup
 from datetime import datetime
 
@@ -15,7 +16,7 @@ WEBSITE = 'http://www.x-kom.pl'
 
 FORMAT_DATETIME = '%Y-%m-%d %H:%M:%S.%f'
 
-REDIS_SERVER = redis.Redis(host='localhost', port=6379)
+REDIS_SERVER = redis.Redis(host=settings.HOST, port=settings.PORT_REDIS, password=settings.PASSWORD)
 
 
 def get_number(number):

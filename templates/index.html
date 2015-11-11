@@ -19,7 +19,7 @@
             {% if hotshots %}
                 <div class="uk-overflow-container">
                     <table class="uk-table uk-table-hover uk-table-striped">
-                        <caption>Archiwum Gorących Strzałów www.x-kom.pl</caption>
+                        <caption>Archiwum Gorących Strzałów <a href="http://www.x-kom.pl">www.x-kom.pl</a></caption>
                             <thead>
                                 <tr>
                                     <th>Data</th>
@@ -32,7 +32,7 @@
                             <tbody>
                                 {% for hotshot in hotshots %}
                                     <tr>
-                                        <td>{{ hotshot.date }}</td>
+                                        <td>{{ hotshot.date|strftime }}</td>
                                         <td>{{ hotshot.title }}</td>
                                         <td class="uk-text-center">{{ hotshot.price_first }} zł</td>
                                         <td class="uk-text-center">{{ hotshot.price }} zł</td>
