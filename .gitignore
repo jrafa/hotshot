@@ -5,3 +5,4 @@ hotshot.ini
 .DS_Store
 .coverage
 .coverage.*
+deployment/
